@@ -6,8 +6,8 @@ QuickDir is a simple command-line interface (CLI) for creating and managing dire
 Clone the repository:
 
 ```
-git clone https://github.com/username/quickdir.git
-cd quickdir
+git clone https://github.com/EmperialX/quickdir-linux.git
+cd quickdir-linux
 ```
 ### Requirements
 Install the required packages
