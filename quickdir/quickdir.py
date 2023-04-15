@@ -20,7 +20,7 @@ def main():
     parser.add_argument('--upgrade', action='store_true', help='upgrade QuickDir to the latest version')
     parser.add_argument('--install', action='store_true', help='install QuickDir using the system package manager')
     parser.add_argument('--uninstall', action='store_true', help='uninstall QuickDir using the system package manager')
-    parser.add_argument('--helpmsg', action='store_true', help='show this help message')
+    parser.add_argument('--help', action='store_true', help='show this help message')
     parser.add_argument('-n', '--name', help='the name of the shortcut to create (only used with the "go" command)')
     parser.add_argument('-d', '--directory', help='the directory to associate with the shortcut (only used with the "go" command)')
 
