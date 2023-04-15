@@ -14,7 +14,10 @@ Install the required packages
 ```
 pip install -r requirements.txt
 ```
-   
+
+Update and Upgrade:
+
+    sudo apt update && sudo apt upgrade 
    
 Install QuickDir:
 ```
