@@ -5,12 +5,11 @@ import os
 import subprocess
 import sys
 import json
-import help
-
 
 
 VERSION = '1.1.0'
 SHORTCUT_FILE = os.path.expanduser('~/.quickdir_shortcuts')
+
 
 def main():
     parser = argparse.ArgumentParser(description='QuickDir: A simple CLI for creating and managing directories.')
@@ -22,9 +21,8 @@ def main():
     parser.add_argument('--upgrade', action='store_true', help='upgrade QuickDir to the latest version')
     parser.add_argument('--install', action='store_true', help='install QuickDir using the system package manager')
     parser.add_argument('--uninstall', action='store_true', help='uninstall QuickDir using the system package manager')
-    parser.add_argument('-h', '--h', action='store_true', help='show this help message')
+    parser.add_argument('-d', '--directory', dest='directory', help='the directory to associate with the shortcut (only used with the "go" and "add" commands)')
     parser.add_argument('-n', '--name', help='the name of the shortcut to create (only used with the "go" command)')
-    parser.add_argument('-d', '--directory', help='the directory to associate with the shortcut (only used with the "go" command)')
     parser.add_argument('-qd', '--quickdir', action='store_true', help='use QuickDir for the command (default: False)')
 
     args = parser.parse_args()
@@ -44,15 +42,33 @@ def main():
     if args.upgrade:
         upgrade()
         sys.exit(0)
+    if args.command == 'create':
+        create_directory(args.dir_name, args.parent)
+    elif args.command == 'list':
+        list_directories(args.parent)
+    elif args.command == 'install':
+        install()
+    elif args.command == 'uninstall':
+        uninstall()
+    elif args.command == 'upgrade':
+        upgrade()
+    elif args.command == 'go':
+        go_to_directory(args.name, args.directory)
+    elif args.command == 'add':
+        add_shortcut(args.name, args.directory)
+    else:
+     print(f'Error: Unknown command "{args.command}"')
+
 
     if args.list:
         list_directories(args.parent)
     elif args.command == 'go':
         go_to_directory(args.name, args.directory)
     elif args.command == 'add':
-        add_shortcut(args.name)
+        add_shortcut(args.name, args.directory)
     else:
         create_directory(args.dir_name, args.parent)
+
 
 def create_directory(name, parent=None):
     path = os.path.join(parent, name) if parent else name
@@ -62,6 +78,7 @@ def create_directory(name, parent=None):
     except FileExistsError:
         print(f'Error: Directory "{name}" already exists')
 
+
 def list_directories(parent=None):
     if not parent:
         parent = os.getcwd()
@@ -70,6 +87,7 @@ def list_directories(parent=None):
     for directory in directories:
         if os.path.isdir(os.path.join(parent, directory)):
             print(directory)
+
 
 def install():
     package_manager = get_package_manager()
@@ -108,12 +126,12 @@ def go_to_directory(name, directory=None):
     os.chdir(directory)
     print(f'Successfully changed directory to "{directory}"')
 
-def add_shortcut(name):
-    current_directory = os.getcwd()
+def add_shortcut(name, directory):
     shortcuts = load_shortcuts()
-    shortcuts[name] = current_directory
+    shortcuts[name] = directory
     save_shortcuts(shortcuts)
-    print(f'Successfully created shortcut "{name}" for directory "{current_directory}"')
+    print(f'Successfully created shortcut "{name}" for directory "{directory}"')
+
 
 def load_shortcuts():
     if not os.path.exists(SHORTCUT_FILE):
