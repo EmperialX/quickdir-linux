@@ -45,10 +45,6 @@ def main():
         upgrade()
         sys.exit(0)
 
-    if args.help:
-        parser.print_help()
-        sys.exit(0)
-
     if args.list:
         list_directories(args.parent)
     elif args.command == 'go':
