@@ -5,11 +5,12 @@ import os
 import subprocess
 import sys
 import json
+import help
+
 
 
 VERSION = '1.1.0'
 SHORTCUT_FILE = os.path.expanduser('~/.quickdir_shortcuts')
-
 
 def main():
     parser = argparse.ArgumentParser(description='QuickDir: A simple CLI for creating and managing directories.')
@@ -21,6 +22,7 @@ def main():
     parser.add_argument('--upgrade', action='store_true', help='upgrade QuickDir to the latest version')
     parser.add_argument('--install', action='store_true', help='install QuickDir using the system package manager')
     parser.add_argument('--uninstall', action='store_true', help='uninstall QuickDir using the system package manager')
+    parser.add_argument('--help', action='help', help='show this help message and exit')
     parser.add_argument('-n', '--name', help='the name of the shortcut to create (only used with the "go" command)')
     parser.add_argument('-d', '--directory', help='the directory to associate with the shortcut (only used with the "go" command)')
     parser.add_argument('-qd', '--quickdir', action='store_true', help='use QuickDir for the command (default: False)')
@@ -43,17 +45,18 @@ def main():
         upgrade()
         sys.exit(0)
 
+    if args.help:
+        parser.print_help()
+        sys.exit(0)
+
     if args.list:
         list_directories(args.parent)
     elif args.command == 'go':
-        go_to_directory(args.name, args.directory, args.quickdir)
+        go_to_directory(args.name, args.directory)
     elif args.command == 'add':
         add_shortcut(args.name)
     else:
-        if args.quickdir:
-            quickdir_create_directory(args.dir_name, args.parent)
-        else:
-            create_directory(args.dir_name, args.parent)
+        create_directory(args.dir_name, args.parent)
 
 def create_directory(name, parent=None):
     path = os.path.join(parent, name) if parent else name

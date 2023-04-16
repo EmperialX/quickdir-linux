@@ -1,7 +1,6 @@
 import os
 import shutil
 import sys
-import help
 
 # Define constants
 INSTALL_DIR = '/usr/local/bin/quickdir'
@@ -34,5 +33,3 @@ except IOError:
 # Print success message
 print(f'Successfully installed QuickDir at {INSTALL_DIR}')
 
-# Display help message
-help.display_help()
