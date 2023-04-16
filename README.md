@@ -95,7 +95,7 @@ quickdir --upgrade
 
 To get help with QuickDir, run:
 
-    quickdir --help
+    quickdir help
 
 ##  Options
 
@@ -117,7 +117,7 @@ QuickDir supports the following options:
 
 `--uninstall:` Uninstall QuickDir using the system package manager.
 
-`--help:` Show the help message.
+`help:` Show the help message.
 
 
 ## Contributing
